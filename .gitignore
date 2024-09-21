@@ -1,56 +1,66 @@
 # Общие игнорируемые файлы
+*.log
+*.tmp
+*.swp
+*.bak
+*.orig
+*.rej
+*.sublime-project
+*.sublime-workspace
 .DS_Store
 Thumbs.db
 
-# Лог-файлы
-*.log
-*.out
-*.tmp
-
-# Python
-# Игнорирование виртуальных окружений
-venv/
+# Игнорирование файлов и папок для Python проектов
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
+*.so
+*.egg
 *.egg-info/
-*.eggs/
+dist/
+build/
+*.manifest
+*.spec
+*.coverage
+.coverage.*
+.cache
+.pytest_cache/
+.tox/
+.env
+.venv
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Файлы конфигурации IDE (например, VS Code, PyCharm)
-.vscode/
-.idea/
-
-# Java
-# Игнорирование билдов и артефактов Maven/Gradle
+# Игнорирование файлов и папок для Spring Boot проектов
 target/
 *.jar
 *.war
 *.ear
-build/
-
-# Gradle-specific files
+*.iml
+*.ipr
+*.iws
+.idea/
+*.class
+*.project
+*.classpath
+.settings/
+bin/
+out/
 .gradle/
 build/
-out/
-
-# Maven-specific files
+!gradle/wrapper/gradle-wrapper.jar
 .mvn/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-dependency-reduced-pom.xml
+!**/src/main/**/application.properties
+!**/src/main/**/application.yml
 
-# Игнорирование IntelliJ IDEA
-*.iml
-.idea/
-
-# Docker
-docker-compose.override.yml
-.env
-
-# Игнорирование логов и временных файлов Docker
-logs/
-*.log
-*.tmp
-*.pid
+# Игнорирование IDE и редакторов
+.vscode/
+*.code-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
