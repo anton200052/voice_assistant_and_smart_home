@@ -14,9 +14,6 @@ def start_recognition():
         recognition_thread.start()
 
 
-def stop_recognition():
+def isRecognitionThreadAlive():
     global recognition_thread
-    state.stop()
-    if recognition_thread is not None and recognition_thread.is_alive():
-        recognition_thread.join()
-        recognition_thread = None
+    return recognition_thread is not None and recognition_thread.is_alive()
