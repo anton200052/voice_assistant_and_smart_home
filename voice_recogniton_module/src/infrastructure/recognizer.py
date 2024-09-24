@@ -1,7 +1,8 @@
-import pyaudio
 import json
+
+import pyaudio
 from vosk import Model, KaldiRecognizer, SetLogLevel
-from src.data_senders.data_sender import notification_sender_imitation_func
+
 from src.data_senders.data_sender import text_sender_imitation_func
 
 assistant_name = "маркус"

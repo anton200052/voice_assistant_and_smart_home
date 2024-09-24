@@ -1,7 +1,9 @@
 from flask import jsonify
-from src.services.health_service import get_health_status
+from src.infrastructure.recognition_starter import isRecognitionThreadAlive
 
 
 def health_check():
-    status, code = get_health_status()
-    return jsonify({'status': status}), 200
+    if isRecognitionThreadAlive():
+        return jsonify({'state': 'UP'}), 200
+    else:
+        return jsonify({'state': 'DOWN'}), 200
