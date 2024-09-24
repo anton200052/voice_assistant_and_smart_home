@@ -1,6 +1,6 @@
 import threading
 from src.infrastructure.recognition_state import RecognitionState
-from src.infrastructure.recognizer import start_recognizer
+from src.infrastructure.vosk_recognizer import start_recognizer
 
 state = RecognitionState()
 recognition_thread = None
