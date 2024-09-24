@@ -3,8 +3,7 @@ import json
 import pyaudio
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
-from src.data_senders.data_sender import text_sender_imitation_func
-
+from src.data_senders.data_sender import sendRecognizedText
 assistant_name = "маркус"
 
 
@@ -49,7 +48,7 @@ def start_recognizer(state):
                     if recognized_text == assistant_name:
                         trigger_word = recognized_text
 
-                    text_sender_imitation_func(recognized_text)
+                    sendRecognizedText(recognized_text)
 
     except KeyboardInterrupt:
         print("Завершение программы...")
