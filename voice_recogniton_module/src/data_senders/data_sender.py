@@ -1,6 +1,7 @@
 import requests
 
 
+#1
 def sendRecognizedText(text):
     url = 'http://localhost:8080/recognized-text'
     data = {'text': text}
