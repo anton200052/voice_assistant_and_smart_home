@@ -11,7 +11,7 @@ public class MainControllerModuleApplication
 
     public static void main(String[] args)
     {
-        SpringApplication.run(MainControllerModuleApplication.class, args);
+        SpringApplication.run(MainControllerModuleApplication.class, args); //1
     }
 
 }
