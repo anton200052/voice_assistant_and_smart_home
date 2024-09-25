@@ -3,14 +3,14 @@ import requests
 
 #1
 def sendRecognizedText(text):
-    url = 'http://localhost:8080/recognized-text'
+    url = 'http://localhost:8080/recognition/recognized-text'
     data = {'text': text}
 
     try:
         response = requests.post(url, json=data, timeout=5)
 
         if response.status_code == 200:
-            print("Ответ:", response.json())
+            print("Успех")
         else:
             print(f"Ошибка: {response.status_code}")
 

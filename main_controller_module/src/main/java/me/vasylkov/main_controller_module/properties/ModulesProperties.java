@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "moduleproperties")
 public class ModulesProperties
 {
-    private String voiceModuleAddress;
+    private String recognitionModuleAddress;
     private String aiModuleAddress;
     private String smartHomeModuleAddress;
 }
