@@ -36,7 +36,7 @@ public class ModulesManager
     {
         modules = new ArrayList<>();
 
-        modules.add(new Module("voice_module", HealthState.UNINITIALIZED, modulesProperties.getVoiceModuleAddress()));
+        modules.add(new Module("recognition_module", HealthState.UNINITIALIZED, modulesProperties.getRecognitionModuleAddress()));
         modules.add(new Module("ai_module", HealthState.UNINITIALIZED, modulesProperties.getAiModuleAddress()));
         modules.add(new Module("smart_home_module", HealthState.UNINITIALIZED, modulesProperties.getSmartHomeModuleAddress()));
     }
