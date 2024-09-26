@@ -1,5 +1,5 @@
 from flask import Flask
-from src.controllers.health_controller import health_check
+from src.controllers.health_rest_controller import health_check
 from src.infrastructure.recognition_starter import start_recognition
 
 

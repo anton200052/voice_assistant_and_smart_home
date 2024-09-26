@@ -1,7 +1,7 @@
 package me.vasylkov.main_controller_module.components;
 
 import lombok.RequiredArgsConstructor;
-import me.vasylkov.main_controller_module.services.ModulesHealthStateUpdaterService;
+import me.vasylkov.main_controller_module.services.ModulesHealthStateUpdaterServiceImp;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class HealthCheckScheduler
 {
-    private final ModulesHealthStateUpdaterService modulesHealthStateUpdaterService;
+    private final ModulesHealthStateUpdaterServiceImp modulesHealthStateUpdaterServiceImp;
 
     @Scheduled(initialDelay = 0, fixedRate = 5000)
     public void scheduleHealthCheck()
     {
-        modulesHealthStateUpdaterService.updateModulesHealth();
+        modulesHealthStateUpdaterServiceImp.updateModulesHealth();
     }
 }
