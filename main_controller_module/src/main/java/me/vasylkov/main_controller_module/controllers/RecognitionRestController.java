@@ -1,4 +1,4 @@
-package me.vasylkov.main_controller_module.rest_controllers;
+package me.vasylkov.main_controller_module.controllers;
 
 import me.vasylkov.main_controller_module.entities.RecognitionRequest;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ public class RecognitionRestController
 {
     @PostMapping("recognized-text")
     @ResponseStatus(HttpStatus.OK)
-    public void recognizeText(@RequestBody RecognitionRequest request)
+    public void recognizedText(@RequestBody RecognitionRequest request)
     {
         System.out.println(request.getText());
     }
