@@ -1,18 +1,26 @@
 package me.vasylkov.ai_module.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
+@Table(name = "property")
 public class Property
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "property_key")
     private String key;
+    @Column(name = "property_value")
     private String value;
+
+    public Property(String key, String value)
+    {
+        this.key = key;
+        this.value = value;
+    }
 }

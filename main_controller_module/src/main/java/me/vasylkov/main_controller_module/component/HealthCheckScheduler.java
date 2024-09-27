@@ -1,4 +1,4 @@
-package me.vasylkov.main_controller_module.components;
+package me.vasylkov.main_controller_module.component;
 
 import lombok.RequiredArgsConstructor;
 import me.vasylkov.main_controller_module.services.ModulesHealthStateUpdaterServiceImp;

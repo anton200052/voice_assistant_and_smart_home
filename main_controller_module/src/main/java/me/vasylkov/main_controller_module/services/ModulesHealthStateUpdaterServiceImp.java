@@ -1,9 +1,9 @@
 package me.vasylkov.main_controller_module.services;
 
 import lombok.RequiredArgsConstructor;
-import me.vasylkov.main_controller_module.components.ModulesManager;
-import me.vasylkov.main_controller_module.entities.HealthCheckResponse;
-import me.vasylkov.main_controller_module.entities.Module;
+import me.vasylkov.main_controller_module.component.ModulesManager;
+import me.vasylkov.main_controller_module.dto.HealthCheckResponse;
+import me.vasylkov.main_controller_module.model.Module;
 import me.vasylkov.main_controller_module.enums.HealthState;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
