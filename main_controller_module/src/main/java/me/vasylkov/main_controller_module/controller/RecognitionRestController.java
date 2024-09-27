@@ -1,6 +1,6 @@
-package me.vasylkov.main_controller_module.controllers;
+package me.vasylkov.main_controller_module.controller;
 
-import me.vasylkov.main_controller_module.entities.RecognitionRequest;
+import me.vasylkov.main_controller_module.dto.RecognitionRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

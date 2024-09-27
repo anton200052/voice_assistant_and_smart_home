@@ -1,6 +1,5 @@
-package me.vasylkov.main_controller_module.entities;
+package me.vasylkov.main_controller_module.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.vasylkov.main_controller_module.enums.HealthState;

@@ -1,4 +1,4 @@
-package me.vasylkov.ai_module.services;
+package me.vasylkov.ai_module.service;
 
 public interface AIRequestService
 {

@@ -1,9 +1,9 @@
-package me.vasylkov.main_controller_module.components;
+package me.vasylkov.main_controller_module.component;
 
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.vasylkov.main_controller_module.entities.Module;
+import me.vasylkov.main_controller_module.model.Module;
 import me.vasylkov.main_controller_module.enums.HealthState;
 import me.vasylkov.main_controller_module.properties.ModulesProperties;
 import org.springframework.stereotype.Component;

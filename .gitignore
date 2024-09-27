@@ -37,6 +37,7 @@ pip-delete-this-directory.txt
 
 # Игнорирование файлов и папок для Spring Boot проектов
 target/
+*.db
 *.sql
 *.jar
 *.war
