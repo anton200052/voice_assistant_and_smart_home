@@ -3,6 +3,7 @@ package me.vasylkov.main_controller_module.component;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.vasylkov.main_controller_module.enums.ModuleType;
 import me.vasylkov.main_controller_module.model.Module;
 import me.vasylkov.main_controller_module.enums.HealthState;
 import me.vasylkov.main_controller_module.properties.ModulesProperties;
@@ -19,11 +20,11 @@ public class ModulesManager
     private List<Module> modules;
     private final ModulesProperties modulesProperties;
 
-    public Module getModuleByName(String name)
+    public Module getModule(ModuleType type)
     {
         for (Module module : modules)
         {
-            if (module.getModuleName().equals(name))
+            if (module.getModuleType() == type)
             {
                 return module;
             }
@@ -36,8 +37,8 @@ public class ModulesManager
     {
         modules = new ArrayList<>();
 
-        modules.add(new Module("recognition_module", HealthState.UNINITIALIZED, modulesProperties.getRecognitionModuleAddress()));
-        modules.add(new Module("ai_module", HealthState.UNINITIALIZED, modulesProperties.getAiModuleAddress()));
-        modules.add(new Module("smart_home_module", HealthState.UNINITIALIZED, modulesProperties.getSmartHomeModuleAddress()));
+        modules.add(new Module(ModuleType.RECOGNITION, HealthState.UNINITIALIZED, modulesProperties.getRecognitionModuleAddress()));
+        modules.add(new Module(ModuleType.AI, HealthState.UNINITIALIZED, modulesProperties.getAiModuleAddress()));
+        modules.add(new Module(ModuleType.SMART_HOME, HealthState.UNINITIALIZED, modulesProperties.getSmartHomeModuleAddress()));
     }
 }

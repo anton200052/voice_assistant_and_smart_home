@@ -18,7 +18,7 @@ import java.util.List;
 public class ModulesHealthStateUpdaterServiceImp implements ModulesHealthStateUpdaterService
 {
     private final ModulesManager modulesManager;
-    private final RestTemplate restTemplate;
+    private final HttpClientService httpClientService;
 
     @Override
     public void updateModulesHealth()
@@ -30,7 +30,7 @@ public class ModulesHealthStateUpdaterServiceImp implements ModulesHealthStateUp
 
             try
             {
-                ResponseEntity<HealthCheckResponse> healthCheckResponseRequestEntity = restTemplate.getForEntity(requestUrl, HealthCheckResponse.class);
+                ResponseEntity<HealthCheckResponse> healthCheckResponseRequestEntity = httpClientService.sendGetRequest(requestUrl, HealthCheckResponse.class);
                 HealthCheckResponse healthCheckResponse = healthCheckResponseRequestEntity.getBody();
 
                 if (healthCheckResponseRequestEntity.getStatusCode().is2xxSuccessful() && healthCheckResponse != null && healthCheckResponse.getState() == HealthState.UP)
