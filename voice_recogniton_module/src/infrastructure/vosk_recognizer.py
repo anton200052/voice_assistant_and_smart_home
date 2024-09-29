@@ -4,7 +4,9 @@ import pyaudio
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 from src.data_senders.data_sender import sendRecognizedText
+
 assistant_name = "маркус"
+
 
 #2
 def start_recognizer(state):

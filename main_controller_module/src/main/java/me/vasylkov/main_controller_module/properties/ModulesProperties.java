@@ -11,5 +11,6 @@ public class ModulesProperties
 {
     private String recognitionModuleAddress;
     private String aiModuleAddress;
+    private String textToSpeechModuleAddress;
     private String smartHomeModuleAddress;
 }
