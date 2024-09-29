@@ -40,5 +40,6 @@ public class ModulesManager
         modules.add(new Module(ModuleType.RECOGNITION, HealthState.UNINITIALIZED, modulesProperties.getRecognitionModuleAddress()));
         modules.add(new Module(ModuleType.AI, HealthState.UNINITIALIZED, modulesProperties.getAiModuleAddress()));
         modules.add(new Module(ModuleType.SMART_HOME, HealthState.UNINITIALIZED, modulesProperties.getSmartHomeModuleAddress()));
+        modules.add(new Module(ModuleType.TTS, HealthState.UNINITIALIZED, modulesProperties.getTextToSpeechModuleAddress()));
     }
 }

@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class RecognitionRequest
+@AllArgsConstructor
+public class TTSRequest
 {
     private String text;
 }
