@@ -44,8 +44,16 @@ public class OpenAIMessagesService implements AIMessagesService
 
     @Override
     @Transactional
+    public void deleteFirstFiveExceptInstructions()
+    {
+        messagesRepository.deleteFirstFiveExceptFirst();
+    }
+
+    @Override
+    @Transactional
     public List<Message> findAll()
     {
         return messagesRepository.findAll();
     }
+
 }

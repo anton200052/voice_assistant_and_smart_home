@@ -1,6 +1,7 @@
 package me.vasylkov.main_controller_module.services;
 
 import lombok.RequiredArgsConstructor;
+import me.vasylkov.main_controller_module.component.AudioFilesPathManager;
 import me.vasylkov.main_controller_module.component.ModulesManager;
 import me.vasylkov.main_controller_module.dto.RecognitionRequest;
 import me.vasylkov.main_controller_module.dto.TTSRequest;
@@ -19,9 +20,10 @@ import java.nio.file.StandardOpenOption;
 @RequiredArgsConstructor
 public class RequestToTTSServiceImp implements RequestToTTSService
 {
-    private final Logger logger;
     private final HttpClientService httpClientService;
     private final ModulesManager modulesManager;
+    private final AudioPlayerService audioPlayerService;
+    private final AudioFilesPathManager audioFilesPathManager;
 
     @Override
     public Path requestToTTS(String text)
@@ -35,6 +37,7 @@ public class RequestToTTSServiceImp implements RequestToTTSService
 
         if (response == null || response.getBody() == null)
         {
+            audioPlayerService.play(audioFilesPathManager.getAudioPathFromResources("tts_module_error_sound.mp3"), true);
             return null;
         }
 
@@ -46,6 +49,7 @@ public class RequestToTTSServiceImp implements RequestToTTSService
         }
         catch (IOException e)
         {
+            audioPlayerService.play(audioFilesPathManager.getAudioPathFromResources("tts_module_error_sound.mp3"), true);
             return null;
         }
     }
