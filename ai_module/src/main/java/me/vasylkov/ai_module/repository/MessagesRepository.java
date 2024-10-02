@@ -15,5 +15,9 @@ public interface MessagesRepository extends JpaRepository<Message, Long>
     @Query("DELETE FROM Message m WHERE m.id > (SELECT MIN(m2.id) FROM Message m2)")
     void deleteAllExceptFirst();
 
+    @Modifying
+    @Query("DELETE FROM Message m WHERE m.id IN (SELECT m2.id FROM Message m2 ORDER BY m2.id ASC LIMIT 6 OFFSET 1)")
+    void deleteFirstFiveExceptFirst();
+
     Message findFirstByOrderByIdAsc();
 }

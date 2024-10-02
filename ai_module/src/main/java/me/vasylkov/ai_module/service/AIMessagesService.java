@@ -15,5 +15,7 @@ public interface AIMessagesService
 
     void clearAllExceptInstructions();
 
+    void deleteFirstFiveExceptInstructions();
+
     List<Message> findAll();
 }
