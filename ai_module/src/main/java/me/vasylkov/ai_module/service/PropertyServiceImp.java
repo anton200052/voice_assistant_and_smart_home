@@ -23,9 +23,9 @@ public class PropertyServiceImp implements PropertyService
 
     @Override
     @Transactional
-    public void save(Property property)
+    public Property save(Property property)
     {
-        propertyRepository.save(property);
+        return propertyRepository.save(property);
     }
 
     @Override

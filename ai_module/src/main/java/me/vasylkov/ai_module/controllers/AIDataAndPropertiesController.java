@@ -2,6 +2,7 @@ package me.vasylkov.ai_module.controllers;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.vasylkov.ai_module.dto.PropertiesResponse;
 import me.vasylkov.ai_module.entity.Message;
 import me.vasylkov.ai_module.entity.Property;
 import me.vasylkov.ai_module.service.AIMessagesService;
@@ -23,16 +24,21 @@ public class AIDataAndPropertiesController
     private final AIMessagesService messagesService;
 
     @GetMapping("/property/list")
-    public ResponseEntity<List<Property>> getProperties()
+    public ResponseEntity<PropertiesResponse> getProperties()
     {
-        return ResponseEntity.ok(propertyService.findAll());
+        return ResponseEntity.ok(new PropertiesResponse(propertyService.findAll()));
+    }
+
+    @GetMapping("/property/single")
+    public ResponseEntity<Property> getPropertyByKey(@RequestParam(value = "propertyKey") String key)
+    {
+        return ResponseEntity.ok(propertyService.findByKey(key));
     }
 
     @PostMapping("/property/save")
-    @ResponseStatus(HttpStatus.OK)
-    public void saveProperty(@RequestBody Property property)
+    public ResponseEntity<Property> saveProperty(@RequestBody Property property)
     {
-        propertyService.save(property);
+        return ResponseEntity.ok(propertyService.save(property));
     }
 
     @GetMapping("/message/system")

@@ -27,10 +27,9 @@ public class ModulesHealthStateUpdaterServiceImp implements ModulesHealthStateUp
         for (Module module : modules)
         {
             String requestUrl = module.getRootUrl() + "/health";
-
-            try
+            ResponseEntity<HealthCheckResponse> healthCheckResponseRequestEntity = httpClientService.sendGetRequest(requestUrl, HealthCheckResponse.class);
+            if (healthCheckResponseRequestEntity != null)
             {
-                ResponseEntity<HealthCheckResponse> healthCheckResponseRequestEntity = httpClientService.sendGetRequest(requestUrl, HealthCheckResponse.class);
                 HealthCheckResponse healthCheckResponse = healthCheckResponseRequestEntity.getBody();
 
                 if (healthCheckResponseRequestEntity.getStatusCode().is2xxSuccessful() && healthCheckResponse != null && healthCheckResponse.getState() == HealthState.UP)
@@ -42,14 +41,11 @@ public class ModulesHealthStateUpdaterServiceImp implements ModulesHealthStateUp
                     module.setHealthState(HealthState.DOWN);
                 }
             }
-            catch (ResourceAccessException e)
+            else
             {
                 module.setHealthState(HealthState.DOWN);
             }
-            finally
-            {
-                module.setLastHealthCheckTime(LocalDateTime.now());
-            }
+            module.setLastHealthCheckTime(LocalDateTime.now());
         }
     }
 }

@@ -27,7 +27,7 @@ public class RecognizedTextProcessor
             return;
         }
         audioPlayerService.play(audioFilesPathManager.getAudioPathFromResources("request_confirm_sound.mp3"), true);
-        String aiResponse = requestToAIService.requestToAI(text);
+        String aiResponse = requestToAIService.requestToAIModel(text);
         Path filePath = requestToTTSService.requestToTTS(aiResponse);
         audioPlayerService.play(filePath, true);
     }

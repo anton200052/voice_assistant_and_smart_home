@@ -8,7 +8,7 @@ public interface PropertyService
 {
     Property findByKey(String key);
 
-    void save(Property property);
+    Property save(Property property);
 
     List<Property> findAll();
 }
