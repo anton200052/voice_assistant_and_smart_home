@@ -37,9 +37,9 @@ public class ModulesManager
     {
         modules = new ArrayList<>();
 
-        modules.add(new Module(ModuleType.RECOGNITION, HealthState.UNINITIALIZED, modulesProperties.getRecognitionModuleAddress()));
-        modules.add(new Module(ModuleType.AI, HealthState.UNINITIALIZED, modulesProperties.getAiModuleAddress()));
-        modules.add(new Module(ModuleType.SMART_HOME, HealthState.UNINITIALIZED, modulesProperties.getSmartHomeModuleAddress()));
-        modules.add(new Module(ModuleType.TTS, HealthState.UNINITIALIZED, modulesProperties.getTextToSpeechModuleAddress()));
+        modules.add(new Module(ModuleType.RECOGNITION, HealthState.DOWN, modulesProperties.getRecognitionModuleAddress()));
+        modules.add(new Module(ModuleType.AI, HealthState.DOWN, modulesProperties.getAiModuleAddress()));
+        modules.add(new Module(ModuleType.SMART_HOME, HealthState.DOWN, modulesProperties.getSmartHomeModuleAddress()));
+        modules.add(new Module(ModuleType.TTS, HealthState.DOWN, modulesProperties.getTextToSpeechModuleAddress()));
     }
 }

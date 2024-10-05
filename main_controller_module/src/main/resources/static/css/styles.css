@@ -3,8 +3,13 @@ html, body {
     margin: 0;
 }
 
-body {
+.centered {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.white_background {
+    background-color: #e9ecef;
+    color: #6c757d;
 }
