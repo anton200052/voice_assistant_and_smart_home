@@ -1,4 +1,4 @@
-package me.vasylkov.main_controller_module.logger;
+package me.vasylkov.smart_home_module.logger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ public class LoggerConfiguration
     @Bean
     public Logger logger()
     {
-        return LoggerFactory.getLogger("main_controller_module");
+        return LoggerFactory.getLogger("smart_home_module");
     }
 }
 

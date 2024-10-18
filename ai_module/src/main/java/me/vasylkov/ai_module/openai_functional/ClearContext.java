@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 // todo: Use AOP instead Spring Context
-public class ClearContext implements Functional
-{
+public class ClearContext implements Functional {
     @Override
-    public String execute()
-    {
+    public String execute() {
         AIMessagesService aiMessagesService = SpringContext.getBean(AIMessagesService.class);
         aiMessagesService.clearAllExceptInstructions();
         return "Успех";
