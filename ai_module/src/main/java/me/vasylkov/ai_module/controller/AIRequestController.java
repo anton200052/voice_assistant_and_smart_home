@@ -1,12 +1,9 @@
-package me.vasylkov.ai_module.controllers;
+package me.vasylkov.ai_module.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.vasylkov.ai_module.dto.AIRequest;
 import me.vasylkov.ai_module.dto.AIResponse;
-import me.vasylkov.ai_module.dto.HealthResponse;
-import me.vasylkov.ai_module.enums.HealthState;
 import me.vasylkov.ai_module.service.AIRequestService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

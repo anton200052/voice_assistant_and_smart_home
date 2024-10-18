@@ -7,7 +7,8 @@ import edge_tts
 async def text_to_speech(text):
     unique_filename = f"output_{uuid.uuid4()}.mp3"
 
-    communicate = edge_tts.Communicate(text, voice="ru-RU-DmitryNeural")
+    communicate = edge_tts.Communicate(text, voice="ru-RU-DmitryNeural")#uk-UA-OstapNeuralru-RU-DmitryNeural
+
 
     await communicate.save(unique_filename)
 

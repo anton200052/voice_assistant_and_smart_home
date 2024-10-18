@@ -1,4 +1,4 @@
-package me.vasylkov.ai_module.controllers;
+package me.vasylkov.ai_module.controller;
 
 import me.vasylkov.ai_module.dto.HealthResponse;
 import me.vasylkov.ai_module.enums.HealthState;

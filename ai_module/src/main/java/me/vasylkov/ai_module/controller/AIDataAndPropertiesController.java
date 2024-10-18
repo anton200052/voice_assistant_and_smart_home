@@ -1,6 +1,5 @@
-package me.vasylkov.ai_module.controllers;
+package me.vasylkov.ai_module.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.vasylkov.ai_module.dto.PropertiesResponse;
 import me.vasylkov.ai_module.entity.Message;
@@ -8,12 +7,8 @@ import me.vasylkov.ai_module.entity.Property;
 import me.vasylkov.ai_module.service.AIMessagesService;
 import me.vasylkov.ai_module.service.PropertyService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/data")
