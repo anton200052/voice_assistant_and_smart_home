@@ -22,12 +22,12 @@ public class MqttPublishedDevicesListener implements IMqttMessageListener {
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        String ieeAddress = topic.substring(topic.lastIndexOf("/") + 1);
+        String friendlyName = topic.substring(topic.lastIndexOf("/") + 1);
         JsonNode jsonNode = new ObjectMapper().readTree(mqttMessage.toString());
         Map<String, Object> properties = jsonExtractor.extractKeysWithValues(jsonNode);
 
         for (Map.Entry<String, Object> entry : properties.entrySet()) {
-            MqttDevice mqttDevice = mqttDevicesManager.getDeviceByIEEEAddress(ieeAddress);
+            MqttDevice mqttDevice = mqttDevicesManager.getDeviceByFriendlyName(friendlyName);
             MqttDevice.Definition.Expose expose = mqttDevicesManager.getDeviceExposeByPropertyName(mqttDevice, entry.getKey());
             String textValue = (String) entry.getValue();
             if (expose != null) {

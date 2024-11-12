@@ -25,6 +25,7 @@
     <table class="table table-boardered table-striped">
         <thead class="table-dark">
             <tr>
+                <th>Module name</th>
                 <th>Module type</th>
                 <th>Health state</th>
                 <th>Last check</th>
@@ -32,7 +33,8 @@
         </thead>
         <tbody>
             <tr th:each="modul : ${modules}">
-                <td th:text="${modul.moduleType}"></td>
+                <td th:text="${modul.moduleName}"></td>
+                <td th:text="${modul.getModuleConnectionType}"></td>
                 <td th:text="${modul.healthState}"></td>
                 <td th:text="${modul.lastHealthCheckTime}"></td>
             </tr>

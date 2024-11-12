@@ -20,7 +20,6 @@ public class ExposeDeserializer extends JsonDeserializer<MqttDevice.Definition.E
         JsonNode node = mapper.readTree(jp);
         String type = node.get("type").asText();
         String description = node.has("description") ? node.get("description").asText() : null;
-        ;
         String name = node.has("name") ? node.get("name").asText() : null;
         String label = node.has("label") ? node.get("label").asText() : null;
         String property = node.has("property") ? node.get("property").asText() : null;

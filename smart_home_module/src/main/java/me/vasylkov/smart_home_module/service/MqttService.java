@@ -6,5 +6,5 @@ public interface MqttService
 {
     void subscribe(String topicFilter, IMqttMessageListener listener);
     String setExposeValue(String deviceIEEAddress, String payload);
-    String getExposeValue(String deviceIEEAddress, String payload);
+    String updateExposeValue(String deviceIEEAddress, String payload);
 }

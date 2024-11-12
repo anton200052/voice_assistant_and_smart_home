@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AIResponse
 {
-    private String response;
+    private String text;
 }

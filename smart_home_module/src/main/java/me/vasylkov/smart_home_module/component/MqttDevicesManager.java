@@ -1,7 +1,6 @@
 package me.vasylkov.smart_home_module.component;
 
 import lombok.Data;
-import lombok.Setter;
 import me.vasylkov.smart_home_module.dto.MqttDevice;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +12,9 @@ import java.util.List;
 public class MqttDevicesManager {
     private List<MqttDevice> devices = new ArrayList<>();
 
-    public MqttDevice getDeviceByIEEEAddress(String ieeAddress) {
+    public MqttDevice getDeviceByFriendlyName(String friendlyName) {
         for (MqttDevice device : devices) {
-            if (device.getIeeeAddress().equals(ieeAddress)) {
+            if (device.getFriendlyName().equals(friendlyName)) {
                 return device;
             }
         }
