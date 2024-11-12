@@ -2,7 +2,9 @@ package me.vasylkov.ai_module.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.sashirestela.openai.domain.chat.ChatMessage;
+import lombok.Getter;
 
+@Getter
 public enum MessageType
 {
     USER_MSG("user-msg"), SYSTEM_MSG("system-msg"), ASSISTANT_MSG("assistant-msg");
@@ -14,11 +16,5 @@ public enum MessageType
         this.value = value;
     }
 
-    @Override
-    @JsonValue
-    public String toString()
-    {
-        return value;
-    }
 }
 

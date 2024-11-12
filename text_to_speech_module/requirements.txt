@@ -1,2 +1,4 @@
-flask
 edge-tts
+fastapi~=0.115.4
+uvicorn
+pyyaml

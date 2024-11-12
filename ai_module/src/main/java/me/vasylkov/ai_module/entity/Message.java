@@ -3,29 +3,28 @@ package me.vasylkov.ai_module.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.vasylkov.ai_module.converter.MessageTypeConverter;
 import me.vasylkov.ai_module.enums.MessageType;
 
 @Data
 @Entity
+@Table(name = "MESSAGES")
 @NoArgsConstructor
-@Table(name = "messages")
-public class Message
-{
+public class Message {
+    public Message(MessageType messageType, String messageText, Client client) {
+        this.messageType = messageType;
+        this.messageText = messageText;
+        this.client = client;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "message_type")
-    @Convert(converter = MessageTypeConverter.class)
     private MessageType messageType;
 
-    @Column(name = "message_text")
-    private String messageText;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_uuid", nullable = false)
+    private Client client;
 
-    public Message(MessageType messageType, String messageText)
-    {
-        this.messageType = messageType;
-        this.messageText = messageText;
-    }
+    private String messageText;
 }

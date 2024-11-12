@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AIRequest
 {
-    private String request;
+    private String uuid;
+    private String text;
 }
