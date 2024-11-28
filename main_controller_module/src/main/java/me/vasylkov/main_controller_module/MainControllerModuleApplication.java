@@ -10,10 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class MainControllerModuleApplication
 {
-
     public static void main(String[] args)
     {
         SpringApplication.run(MainControllerModuleApplication.class, args); //1
     }
-
 }
