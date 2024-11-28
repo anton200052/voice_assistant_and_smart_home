@@ -31,13 +31,16 @@ public class AIServiceImp implements AIService {
         HttpEntity<AIRequest> requestEntity = new HttpEntity<>(aiRequest);
 
         ResponseEntity<AIResponse> response = sendAIRequest(aiUrl, requestEntity);
-        if (isUnauthorized(response)) {
-            registerClient(aiUrl, uuid, smartHomeUrl);
-            response = sendAIRequest(aiUrl, requestEntity);
-        }
+        if (response != null) {
+            if (isUnauthorized(response)) {
+                registerClient(aiUrl, uuid, smartHomeUrl);
+                response = sendAIRequest(aiUrl, requestEntity);
+            }
 
-        if (isSuccessful(response) && response.getBody() != null) {
-            return response.getBody().getText();
+            AIResponse body = response.getBody();
+            if (isSuccessful(response) && body != null) {
+                return body.getText();
+            }
         }
 
         audioPlayer.play(audioFilesPathManager.getAudioPathFromResources("ai_module_error_sound.mp3"), true);
@@ -55,11 +58,11 @@ public class AIServiceImp implements AIService {
     }
 
     private boolean isUnauthorized(ResponseEntity<?> response) {
-        return response != null && response.getStatusCode() == HttpStatus.UNAUTHORIZED;
+        return response.getStatusCode() == HttpStatus.UNAUTHORIZED;
     }
 
     private boolean isSuccessful(ResponseEntity<?> response) {
-        return response != null && response.getStatusCode().is2xxSuccessful() && response.getBody() != null;
+        return response.getStatusCode().is2xxSuccessful() && response.getBody() != null;
     }
 
 }

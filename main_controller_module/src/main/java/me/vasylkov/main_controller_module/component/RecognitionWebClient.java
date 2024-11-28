@@ -1,6 +1,5 @@
 package me.vasylkov.main_controller_module.component;
 
-import me.vasylkov.main_controller_module.enums.ModuleType;
 import me.vasylkov.main_controller_module.properties.ModulesProperties;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -23,7 +22,7 @@ public class RecognitionWebClient extends WebSocketClient {
     }
 
     @Override
-    public void onOpen(ServerHandshake handshakedata) {
+    public void onOpen(ServerHandshake handshakeData) {
         logger.info("Connected to WebSocket server");
     }
 
