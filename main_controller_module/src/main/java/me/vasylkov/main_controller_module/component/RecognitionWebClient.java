@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 public class RecognitionWebClient extends WebSocketClient {
     private final Logger logger;
     private final RecognizedTextProcessor textProcessor;
+    private ServerHandshake handShakeData;
 
     public RecognitionWebClient(ModulesProperties modulesProperties, Logger logger, RecognizedTextProcessor textProcessor) throws URISyntaxException {
         super(new URI(modulesProperties.getRecognitionModuleAddress() + "/recognize/audio/chunk"));
@@ -23,6 +24,7 @@ public class RecognitionWebClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakeData) {
+        this.handShakeData = handshakeData;
         logger.info("Connected to WebSocket server");
     }
 
@@ -39,5 +41,9 @@ public class RecognitionWebClient extends WebSocketClient {
     @Override
     public void onError(Exception ex) {
         logger.info("WebSocket error: {}", ex.getMessage());
+    }
+
+    public boolean isConnected() {
+        return this.handShakeData != null && this.isOpen();
     }
 }

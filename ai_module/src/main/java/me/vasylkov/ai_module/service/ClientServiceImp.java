@@ -40,14 +40,15 @@ public class ClientServiceImp implements ClientService {
 
     @Override
     @Transactional
-    public void registerClient(String uuid, String smartHomeUrl) {
+    public Client registerClient(String uuid, String smartHomeUrl) {
         if (clientRepository.findClientByUuid(uuid).isEmpty()) {
             Client newClient = new Client();
             newClient.setUuid(uuid);
             newClient.setSmartHomeUrl(smartHomeUrl);
             newClient.setMessages(List.of(new Message(MessageType.SYSTEM_MSG, openAiProperties.getInstructions(), newClient), new Message(MessageType.SYSTEM_MSG, "Client UniqueId: " + uuid, newClient), new Message(MessageType.SYSTEM_MSG, "SmartHomeUrl: " + smartHomeUrl, newClient)));
-            clientRepository.save(newClient);
+            return clientRepository.save(newClient);
         }
+        return null;
     }
 
     @Override

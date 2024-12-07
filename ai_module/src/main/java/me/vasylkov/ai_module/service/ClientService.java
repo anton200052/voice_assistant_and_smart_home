@@ -9,7 +9,7 @@ public interface ClientService {
     Client save(Client client);
     Optional<Client> findByUUID(String uuid);
     void deleteByUUID(String uuid);
-    void registerClient(String uuid, String smartHomeUrl);
+    Client registerClient(String uuid, String smartHomeUrl);
     void deleteAllClientMessagesExcludeInstructionsByClientUUID(String uuid);
     void deleteFirstFiveClientMessagesExcludeInstructionsByClientUUID(String uuid);
     void addMessageToClient(String uuid, MessageType messageType, String messageText);

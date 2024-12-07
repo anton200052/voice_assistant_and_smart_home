@@ -2,15 +2,17 @@ package me.vasylkov.ai_module.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.vasylkov.ai_module.dto.RegOptions;
+import me.vasylkov.ai_module.entity.Client;
 import me.vasylkov.ai_module.exception.BadRequestException;
+import me.vasylkov.ai_module.exception.ClientRegistrationException;
 import me.vasylkov.ai_module.service.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/client")
 @RequiredArgsConstructor
-public class AuthController {
+public class ClientController {
     private final ClientService clientService;
 
     @PostMapping("/register")
@@ -24,6 +26,15 @@ public class AuthController {
             throw new BadRequestException("Wrong format.");
         }
 
-        clientService.registerClient(clientUUID, smartHomeUrl);
+        Client registeredClient = clientService.registerClient(clientUUID, smartHomeUrl);
+        if (registeredClient == null) {
+            throw new ClientRegistrationException("Unexpected error. Could not register client.");
+        }
+    }
+
+    @DeleteMapping("/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteClient(@RequestParam(value = "clientUUID") String clientUUID) {
+        clientService.deleteByUUID(clientUUID);
     }
 }
