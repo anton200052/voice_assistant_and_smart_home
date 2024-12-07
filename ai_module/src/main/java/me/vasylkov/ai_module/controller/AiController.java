@@ -28,11 +28,13 @@ public class AiController {
         if (clientId == null || requestText == null) {
             throw new BadRequestException("Wrong format");
         }
+
         Optional<Client> client = clientService.findByUUID(clientId);
 
         if (client.isEmpty()) {
             throw new UnauthorizedException("Unauthorized, auth required");
         }
+
         AIResponse response = new AIResponse(requestService.requestToAI(request.getText(), client.get()));
         return ResponseEntity.ok(response);
     }

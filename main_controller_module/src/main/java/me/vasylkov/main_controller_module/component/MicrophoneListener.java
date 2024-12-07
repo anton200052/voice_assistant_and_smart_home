@@ -33,7 +33,9 @@ public class MicrophoneListener {
             return;
         }
 
-        voiceRecognitionServerService.send(String.format("{ \"config\" : { \"sample_rate\" : %d } }", (int) format.getSampleRate()));
+        if (voiceRecognitionServerService.isConnected()) {
+            voiceRecognitionServerService.send(String.format("{ \"config\" : { \"sample_rate\" : %d } }", (int) format.getSampleRate()));
+        }
     }
 
     private void startSendingMicAudioToServer() {
@@ -51,6 +53,7 @@ public class MicrophoneListener {
                         }
 
                         if (!voiceRecognitionServerService.isConnected()) {
+                            logger.error("Клиент отключен от сервиса распознавания речи.");
                             return;
                         }
 

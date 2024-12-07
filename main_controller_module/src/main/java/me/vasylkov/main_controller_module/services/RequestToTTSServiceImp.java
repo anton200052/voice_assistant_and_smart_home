@@ -7,6 +7,7 @@ import me.vasylkov.main_controller_module.component.HttpRequestSender;
 import me.vasylkov.main_controller_module.dto.TTSRequest;
 import me.vasylkov.main_controller_module.properties.ModulesProperties;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class RequestToTTSServiceImp implements RequestToTTSService
 
         TTSRequest ttsRequest = new TTSRequest(text);
         HttpEntity<TTSRequest> entity = new HttpEntity<>(ttsRequest);
-        ResponseEntity<byte[]> response = httpRequestSender.sendPostForEntityRequest(ttsUrl, entity, byte[].class);
+        ResponseEntity<byte[]> response = httpRequestSender.sendRequest(ttsUrl, HttpMethod.POST, entity, byte[].class);
 
         if (response == null || response.getBody() == null)
         {

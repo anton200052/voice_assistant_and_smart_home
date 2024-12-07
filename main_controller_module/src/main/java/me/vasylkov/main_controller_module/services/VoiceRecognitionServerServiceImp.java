@@ -3,15 +3,13 @@ package me.vasylkov.main_controller_module.services;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
-import org.java_websocket.client.WebSocketClient;
+import me.vasylkov.main_controller_module.component.RecognitionWebClient;
 import org.springframework.stereotype.Service;
-
-import java.nio.ByteBuffer;
 
 @Service
 @RequiredArgsConstructor
 public class VoiceRecognitionServerServiceImp implements VoiceRecognitionServerService {
-    private final WebSocketClient webSocketClient;
+    private final RecognitionWebClient webSocketClient;
 
     @Override
     public synchronized void connect() {
@@ -25,7 +23,7 @@ public class VoiceRecognitionServerServiceImp implements VoiceRecognitionServerS
 
     @Override
     public synchronized boolean isConnected() {
-        return webSocketClient.isOpen();
+        return webSocketClient.isConnected();
     }
 
     @Override
@@ -36,11 +34,6 @@ public class VoiceRecognitionServerServiceImp implements VoiceRecognitionServerS
     @Override
     public synchronized void send(byte[] bytes) {
         webSocketClient.send(bytes);
-    }
-
-    @Override
-    public synchronized void send(ByteBuffer buffer) {
-        webSocketClient.send(buffer);
     }
 
     @PostConstruct

@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -14,67 +13,16 @@ public class HttpRequestSender {
     private final RestTemplate restTemplate;
     private final Logger logger;
 
-    public <R> ResponseEntity<R> sendGetForEntityRequest(String url, Class<R> responseType) {
-        ResponseEntity<R> response;
+    public <T, R> ResponseEntity<R> sendRequest(String url, HttpMethod method, HttpEntity<T> requestEntity, Class<R> responseType) {
         try {
-            response = restTemplate.getForEntity(url, responseType);
+            ResponseEntity<R> response = restTemplate.exchange(url, method, requestEntity, responseType);
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response;
             }
-        }
-        catch (Exception e) {
+            return ResponseEntity.status(response.getStatusCode()).build();
+        } catch (Exception e) {
             return handleRestClientException(e);
         }
-
-        return ResponseEntity.status(response.getStatusCode()).build();
-    }
-
-    public <T, R> ResponseEntity<R> sendPostForEntityRequest(String url, HttpEntity<T> requestEntity, Class<R> responseType) {
-        ResponseEntity<R> response;
-        try {
-            response = restTemplate.postForEntity(url, requestEntity, responseType);
-
-            if (response.getStatusCode().is2xxSuccessful()) {
-                return response;
-            }
-        }
-        catch (RestClientException e) {
-            return handleRestClientException(e);
-        }
-
-        return ResponseEntity.status(response.getStatusCode()).build();
-    }
-
-    public ResponseEntity<Void> sendGetRequest(String url) {
-        ResponseEntity<Void> response;
-        try {
-            response = restTemplate.exchange(url, HttpMethod.GET, null, Void.class);
-
-            if (response.getStatusCode().is2xxSuccessful()) {
-                return response;
-            }
-        }
-        catch (RestClientException e) {
-            return handleRestClientException(e);
-        }
-
-        return ResponseEntity.status(response.getStatusCode()).build();
-    }
-
-    public <T> ResponseEntity<Void> sendPostRequest(String url, HttpEntity<T> requestEntity) {
-        ResponseEntity<Void> response;
-        try {
-            response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Void.class);
-
-            if (response.getStatusCode().is2xxSuccessful()) {
-                return response;
-            }
-        }
-        catch (RestClientException e) {
-            return handleRestClientException(e);
-        }
-
-        return ResponseEntity.status(response.getStatusCode()).build();
     }
 
     private <T> ResponseEntity<T> handleRestClientException(Exception e) {
