@@ -9,14 +9,13 @@ import java.util.Map;
 
 @Component
 public class JsonExtractor {
-
     public Map<String, Object> extractKeysWithValues(JsonNode jsonNode) {
         Map<String, Object> keysMap = new HashMap<>();
-        extractKeysRecursively(jsonNode, keysMap);
+        extractKeysToMapRecursively(jsonNode, keysMap);
         return keysMap;
     }
 
-    private void extractKeysRecursively(JsonNode jsonNode, Map<String, Object> keysMap) {
+    private void extractKeysToMapRecursively(JsonNode jsonNode, Map<String, Object> keysMap) {
         Iterator<String> fieldNames = jsonNode.fieldNames();
 
         while (fieldNames.hasNext()) {
@@ -24,7 +23,7 @@ public class JsonExtractor {
             JsonNode childNode = jsonNode.get(fieldName);
 
             if (childNode.isObject()) {
-                extractKeysRecursively(childNode, keysMap);
+                extractKeysToMapRecursively(childNode, keysMap);
             }
             else {
                 keysMap.put(fieldName, childNode.asText());

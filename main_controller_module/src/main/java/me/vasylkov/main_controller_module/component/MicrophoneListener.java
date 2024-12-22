@@ -21,6 +21,18 @@ public class MicrophoneListener {
     private DataLine.Info info;
     private TargetDataLine microphone;
 
+    @PostConstruct
+    public void init() {
+        format = new AudioFormat(16000, 16, 1, true, false);
+        info = new DataLine.Info(TargetDataLine.class, format);
+        try {
+            microphone = (TargetDataLine) AudioSystem.getLine(info);
+        }
+        catch (LineUnavailableException e) {
+            logger.error("Микрофон недоступен: ", e);
+        }
+    }
+
     @Async
     public void startRecordingAndSendingMicAudioToServer() {
         initializeMicRecorder();
@@ -63,18 +75,6 @@ public class MicrophoneListener {
         }
         catch (LineUnavailableException e) {
             logger.error("Ошибка отправки аудио на сервер: ", e);
-        }
-    }
-
-    @PostConstruct
-    public void init() {
-        format = new AudioFormat(16000, 16, 1, true, false);
-        info = new DataLine.Info(TargetDataLine.class, format);
-        try {
-            microphone = (TargetDataLine) AudioSystem.getLine(info);
-        }
-        catch (LineUnavailableException e) {
-            logger.error("Микрофон недоступен: ", e);
         }
     }
 

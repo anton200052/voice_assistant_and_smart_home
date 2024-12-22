@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "moduleproperties")
+@ConfigurationProperties(prefix = "module")
 public class ModulesProperties
 {
     private String recognitionModuleAddress;

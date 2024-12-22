@@ -89,7 +89,7 @@ public class MqttDevice {
         @Data
         @JsonIgnoreProperties(ignoreUnknown = true)
         @JsonDeserialize(using = ExposeDeserializer.class)
-        public static abstract class Expose {
+        public abstract static class Expose {
             @JsonProperty("type")
             private String type;
 
@@ -118,7 +118,7 @@ public class MqttDevice {
         @Data
         @EqualsAndHashCode(callSuper = true)
         @JsonIgnoreProperties(ignoreUnknown = true)
-        public abstract static class ValueExpose<T> extends Expose {
+        public abstract static class ValuableExpose<T> extends Expose {
             @JsonProperty("current_value")
             private T currentValue;
         }
@@ -126,7 +126,15 @@ public class MqttDevice {
         @Data
         @EqualsAndHashCode(callSuper = true)
         @JsonIgnoreProperties(ignoreUnknown = true)
-        public static class BinaryExpose extends ValueExpose<String> {
+        public abstract static class FeaturesExpose extends Expose {
+            @JsonProperty("features")
+            private List<Expose> features;
+        }
+
+        @Data
+        @EqualsAndHashCode(callSuper = true)
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        public static class BinaryExpose extends ValuableExpose<String> {
             @JsonProperty("value_on")
             private String valueOn;
 
@@ -140,7 +148,7 @@ public class MqttDevice {
         @Data
         @EqualsAndHashCode(callSuper = true)
         @JsonIgnoreProperties(ignoreUnknown = true)
-        public static class NumericExpose extends ValueExpose<Double> {
+        public static class NumericExpose extends ValuableExpose<Double> {
             @JsonProperty("value_min")
             private Double valueMin;
 
@@ -160,7 +168,7 @@ public class MqttDevice {
         @Data
         @EqualsAndHashCode(callSuper = true)
         @JsonIgnoreProperties(ignoreUnknown = true)
-        public static class EnumExpose extends ValueExpose<String> {
+        public static class EnumExpose extends ValuableExpose<String> {
             @JsonProperty("values")
             private List<String> values;
         }
@@ -168,16 +176,8 @@ public class MqttDevice {
         @Data
         @EqualsAndHashCode(callSuper = true)
         @JsonIgnoreProperties(ignoreUnknown = true)
-        public static class TextExpose extends ValueExpose<String> {
+        public static class TextExpose extends ValuableExpose<String> {
 
-        }
-
-        @Data
-        @EqualsAndHashCode(callSuper = true)
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        public static class CompositeExpose extends Expose {
-            @JsonProperty("features")
-            private List<Expose> features;
         }
 
         @Data
@@ -197,9 +197,13 @@ public class MqttDevice {
         @Data
         @EqualsAndHashCode(callSuper = true)
         @JsonIgnoreProperties(ignoreUnknown = true)
-        public static class SpecificExpose extends Expose {
-            @JsonProperty("features")
-            private List<Expose> features;
+        public static class CompositeExpose extends FeaturesExpose {
+        }
+
+        @Data
+        @EqualsAndHashCode(callSuper = true)
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        public static class SpecificExpose extends FeaturesExpose {
         }
     }
 }

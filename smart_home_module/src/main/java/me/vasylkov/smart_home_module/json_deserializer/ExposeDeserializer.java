@@ -1,156 +1,164 @@
 package me.vasylkov.smart_home_module.json_deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.vasylkov.smart_home_module.dto.MqttDevice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExposeDeserializer extends JsonDeserializer<MqttDevice.Definition.Expose> {
+    private final Logger logger = LoggerFactory.getLogger(ExposeDeserializer.class);
 
     @Override
     public MqttDevice.Definition.Expose deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         JsonNode node = mapper.readTree(jp);
-        String type = node.get("type").asText();
-        String description = node.has("description") ? node.get("description").asText() : null;
-        String name = node.has("name") ? node.get("name").asText() : null;
-        String label = node.has("label") ? node.get("label").asText() : null;
-        String property = node.has("property") ? node.get("property").asText() : null;
-        int access = node.has("access") ? node.get("access").asInt() : 0;
 
-        MqttDevice.Definition.Expose finalExpose = null;
+        String type = getNodeTextValue(node, "type");
 
-        switch (type) {
-            case "binary" -> {
-                MqttDevice.Definition.BinaryExpose binaryExpose = new MqttDevice.Definition.BinaryExpose();
-                if (node.has("value_on")) {
-                    binaryExpose.setValueOn(node.get("value_on").asText());
-                }
+        return deserializeExpose(mapper, node, type);
+    }
 
-                if (node.has("value_off")) {
-                    binaryExpose.setValueOff(node.get("value_off").asText());
-                }
+    private String getNodeTextValue(JsonNode node, String fieldName) {
+        return node.has(fieldName) ? node.get(fieldName).asText() : null;
+    }
 
-                finalExpose = binaryExpose;
-            }
-            case "numeric" -> {
-                MqttDevice.Definition.NumericExpose numericExpose = new MqttDevice.Definition.NumericExpose();
+    private double getNodeDoubleValue(JsonNode node, String fieldName) {
+        return node.has(fieldName) ? node.get(fieldName).asDouble() : 0;
+    }
 
-                if (node.has("value_min")) {
-                    numericExpose.setValueMin(node.get("value_min").asDouble());
-                }
+    private int getNodeIntValue(JsonNode node, String fieldName) {
+        return node.has(fieldName) ? node.get(fieldName).asInt() : 0;
+    }
 
-                if (node.has("value_max")) {
-                    numericExpose.setValueMax(node.get("value_max").asDouble());
-                }
+    private JsonNode getChildNode(JsonNode parentNode, String fieldName) {
+        return parentNode.has(fieldName) ? parentNode.get(fieldName) : null;
+    }
 
-                if (node.has("unit")) {
-                    numericExpose.setUnit(node.get("unit").asText());
-                }
-
-                if (node.has("presets")) {
-                    List<MqttDevice.Definition.Preset> presets = new ArrayList<>();
-                    JsonNode presetsNode = node.get("presets");
-
-                    for (JsonNode presetNode : presetsNode) {
-                        MqttDevice.Definition.Preset preset = new MqttDevice.Definition.Preset();
-                        if (presetNode.has("name")) {
-                            preset.setName(presetNode.get("name").asText());
-                        }
-                        if (presetNode.has("value")) {
-                            preset.setValue(presetNode.get("value").asDouble());
-                        }
-                        if (presetNode.has("description")) {
-                            preset.setDescription(presetNode.get("description").asText());
-                        }
-                        presets.add(preset);
-                    }
-
-                    numericExpose.setPresets(presets);
-                }
-
-                finalExpose = numericExpose;
-            }
-            case "enum" -> {
-                MqttDevice.Definition.EnumExpose enumExpose = new MqttDevice.Definition.EnumExpose();
-
-                if (node.has("values")) {
-                    List<String> values = new ArrayList<>();
-                    for (JsonNode valueNode : node.get("values")) {
-                        values.add(valueNode.asText());
-                    }
-                    enumExpose.setValues(values);
-                }
-
-                finalExpose = enumExpose;
-            }
-            case "text" -> finalExpose = new MqttDevice.Definition.TextExpose();
-            case "composite" -> {
-                MqttDevice.Definition.CompositeExpose compositeExpose = new MqttDevice.Definition.CompositeExpose();
-                if (node.has("features")) {
-                    List<MqttDevice.Definition.Expose> features = mapper.treeToValue(node.get("features"), new TypeReference<>() {
-                    });
-                    compositeExpose.setFeatures(features);
-                }
-
-                finalExpose = compositeExpose;
-            }
-            case "list" -> {
-                MqttDevice.Definition.ListExpose listExpose = new MqttDevice.Definition.ListExpose();
-                if (node.has("item_type")) {
-                    MqttDevice.Definition.Expose itemType = mapper.treeToValue(node.get("item_type"), MqttDevice.Definition.Expose.class);
-                    listExpose.setItemType(itemType);
-                }
-
-                finalExpose = listExpose;
-            }
-            case "light", "switch", "fan", "cover", "lock", "climate" -> {
-                MqttDevice.Definition.SpecificExpose specificExpose = new MqttDevice.Definition.SpecificExpose();
-                if (node.has("features")) {
-                    List<MqttDevice.Definition.Expose> features = mapper.treeToValue(node.get("features"), new TypeReference<>() {
-                    });
-                    specificExpose.setFeatures(features);
-                }
-
-                finalExpose = specificExpose;
-            }
+    private MqttDevice.Definition.Expose deserializeExpose(ObjectMapper mapper, JsonNode node, String type) {
+        MqttDevice.Definition.Expose typedExpose = null;
+        try {
+            typedExpose = deserializeTypedExposeFields(mapper, node, type);
+        }
+        catch (JsonProcessingException e) {
+            logger.error("Ошибка получения данных про возможности девайса", e);
         }
 
-        if (finalExpose != null) {
+        if (typedExpose != null) {
+            String description = getNodeTextValue(node, "description");
+            String name = getNodeTextValue(node, "name");
+            String label = getNodeTextValue(node, "label");
+            String property = getNodeTextValue(node, "property");
+            int access = getNodeIntValue(node, "access");
+
             if (name != null) {
-                finalExpose.setName(name);
+                typedExpose.setName(name);
             }
 
             if (label != null) {
-                finalExpose.setLabel(label);
+                typedExpose.setLabel(label);
             }
 
             if (access != 0) {
-                finalExpose.setIsPublished((access & 1) != 0);
-                finalExpose.setIsSettable((access & 2) != 0);
-                finalExpose.setIsGettable((access & 4) != 0);
+                typedExpose.setIsPublished((access & 1) != 0);
+                typedExpose.setIsSettable((access & 2) != 0);
+                typedExpose.setIsGettable((access & 4) != 0);
             }
 
             if (property != null) {
-                finalExpose.setProperty(property);
+                typedExpose.setProperty(property);
             }
 
             if (description != null) {
-                finalExpose.setDescription(description);
+                typedExpose.setDescription(description);
             }
 
-            finalExpose.setType(type);
+            typedExpose.setType(type);
         }
 
-        return finalExpose;
+        return typedExpose;
     }
 
+    private MqttDevice.Definition.Expose deserializeTypedExposeFields(ObjectMapper mapper, JsonNode node, String type) throws JsonProcessingException {
+        MqttDevice.Definition.Expose expose = null;
+
+        if (type != null) {
+            switch (type) {
+                case "binary" -> {
+                    MqttDevice.Definition.BinaryExpose binaryExpose = new MqttDevice.Definition.BinaryExpose();
+                    binaryExpose.setValueOn(getNodeTextValue(node, "value_on"));
+                    binaryExpose.setValueOff(getNodeTextValue(node, "value_off"));
+                    expose = binaryExpose;
+                }
+                case "numeric" -> {
+                    MqttDevice.Definition.NumericExpose numericExpose = new MqttDevice.Definition.NumericExpose();
+                    numericExpose.setValueMin(getNodeDoubleValue(node, "value_min"));
+                    numericExpose.setValueMax(getNodeDoubleValue(node, "value_max"));
+                    numericExpose.setUnit(getNodeTextValue(node, "unit"));
+
+                    JsonNode presetsNode = getChildNode(node, "presets");
+                    if (presetsNode != null) {
+                        List<MqttDevice.Definition.Preset> presets = new ArrayList<>();
+
+                        for (JsonNode presetNode : presetsNode) {
+                            MqttDevice.Definition.Preset preset = new MqttDevice.Definition.Preset();
+                            preset.setName(getNodeTextValue(presetNode, "name"));
+                            preset.setValue(getNodeDoubleValue(presetNode, "value"));
+                            preset.setDescription(getNodeTextValue(presetNode, "description"));
+
+                            presets.add(preset);
+                        }
+                        numericExpose.setPresets(presets);
+                    }
+                    expose = numericExpose;
+                }
+                case "enum" -> {
+                    MqttDevice.Definition.EnumExpose enumExpose = new MqttDevice.Definition.EnumExpose();
+
+                    JsonNode valuesNode = getChildNode(node, "values");
+                    if (valuesNode != null) {
+                        List<String> values = new ArrayList<>();
+                        for (JsonNode valueNode : valuesNode) {
+                            values.add(valueNode.asText());
+                            enumExpose.setValues(values);
+                        }
+                    }
+                    expose = enumExpose;
+                }
+                case "text" -> expose = new MqttDevice.Definition.TextExpose();
+                case "composite" -> {
+                    MqttDevice.Definition.CompositeExpose compositeExpose = new MqttDevice.Definition.CompositeExpose();
+                    List<MqttDevice.Definition.Expose> features = mapper.treeToValue(getChildNode(node, "features"), new TypeReference<>() {
+                    });
+                    compositeExpose.setFeatures(features);
+                    expose = compositeExpose;
+                }
+                case "list" -> {
+                    MqttDevice.Definition.ListExpose listExpose = new MqttDevice.Definition.ListExpose();
+                    MqttDevice.Definition.Expose itemType = mapper.treeToValue(getChildNode(node, "item_type"), MqttDevice.Definition.Expose.class);
+                    listExpose.setItemType(itemType);
+                    expose = listExpose;
+                }
+                case "light", "switch", "fan", "cover", "lock", "climate" -> {
+                    MqttDevice.Definition.SpecificExpose specificExpose = new MqttDevice.Definition.SpecificExpose();
+                    List<MqttDevice.Definition.Expose> features = mapper.treeToValue(getChildNode(node, "features"), new TypeReference<>() {
+                    });
+                    specificExpose.setFeatures(features);
+                    expose = specificExpose;
+                }
+            }
+        }
+
+        return expose;
+    }
 }
 
