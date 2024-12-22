@@ -4,16 +4,17 @@ import jakarta.annotation.PreDestroy;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 import lombok.RequiredArgsConstructor;
+import me.vasylkov.main_controller_module.properties.AudioProperties;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Component
 @RequiredArgsConstructor

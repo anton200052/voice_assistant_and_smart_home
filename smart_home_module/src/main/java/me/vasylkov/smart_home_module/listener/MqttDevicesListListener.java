@@ -22,24 +22,27 @@ public class MqttDevicesListListener implements IMqttMessageListener {
 
     private final String mqttName = "zigbee2mqtt";
 
+    @PostConstruct
+    public void subscribe() {
+        mqttService.subscribe(mqttName + "/bridge/devices", this);
+    }
+
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        List<MqttDevice> devices = new ObjectMapper().readValue(mqttMessage.toString(), new TypeReference<>() {});
-        ;
-        for (int i = 0; i < devices.size(); i++) {
-            MqttDevice receivedDevice = devices.get(i);
+        List<MqttDevice> newDevices = new ObjectMapper().readValue(mqttMessage.toString(), new TypeReference<>() {});
+        updateDevices(newDevices);
+    }
+
+    private void updateDevices(List<MqttDevice> newDevices) {
+        for (int i = 0; i < newDevices.size(); i++) {
+            MqttDevice receivedDevice = newDevices.get(i);
             MqttDevice device = mqttDevicesManager.getDeviceByFriendlyName(receivedDevice.getFriendlyName());
             if (device != null) {
-                devices.set(i, device);
+                newDevices.set(i, device);
                 continue;
             }
             mqttService.subscribe(mqttName + "/" + receivedDevice.getFriendlyName(), mqttPublishedDevicesListener);
         }
-        mqttDevicesManager.setDevices(devices);
-    }
-
-    @PostConstruct
-    public void subscribe() {
-        mqttService.subscribe(mqttName + "/bridge/devices", this);
+        mqttDevicesManager.setDevices(newDevices);
     }
 }

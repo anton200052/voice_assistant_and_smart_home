@@ -22,32 +22,42 @@ public class MqttPublishedDevicesListener implements IMqttMessageListener {
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        String friendlyName = topic.substring(topic.lastIndexOf("/") + 1);
         JsonNode jsonNode = new ObjectMapper().readTree(mqttMessage.toString());
+        String friendlyName = getFriendlyNameFromTopic(topic);
         Map<String, Object> properties = jsonExtractor.extractKeysWithValues(jsonNode);
 
+        updateDeviceProperties(properties, friendlyName);
+    }
+
+    private String getFriendlyNameFromTopic(String topic) {
+        return topic.substring(topic.lastIndexOf("/") + 1);
+    }
+
+    private void updateDeviceProperties(Map<String, Object> properties, String friendlyName) {
         for (Map.Entry<String, Object> entry : properties.entrySet()) {
             MqttDevice mqttDevice = mqttDevicesManager.getDeviceByFriendlyName(friendlyName);
-            MqttDevice.Definition.Expose expose = mqttDevicesManager.getDeviceExposeByPropertyName(mqttDevice, entry.getKey());
-            String textValue = (String) entry.getValue();
+            String propertyName = entry.getKey();
+            MqttDevice.Definition.Expose expose = mqttDevicesManager.getDeviceExposeByPropertyName(mqttDevice, propertyName);
+            String textPropertyValue = (String) entry.getValue();
+
             if (expose != null) {
-                try {
-                    if (expose instanceof MqttDevice.Definition.BinaryExpose binaryExpose) {
-                        binaryExpose.setCurrentValue(textValue);
-                    }
-                    else if (expose instanceof MqttDevice.Definition.NumericExpose numericExpose) {
-                        Double currentValue = Double.valueOf(textValue);
+                if (expose instanceof MqttDevice.Definition.BinaryExpose binaryExpose) {
+                    binaryExpose.setCurrentValue(textPropertyValue);
+                }
+                else if (expose instanceof MqttDevice.Definition.EnumExpose enumExpose) {
+                    enumExpose.setCurrentValue(textPropertyValue);
+                }
+                else if (expose instanceof MqttDevice.Definition.TextExpose textExpose) {
+                    textExpose.setCurrentValue(textPropertyValue);
+                }
+                else if (expose instanceof MqttDevice.Definition.NumericExpose numericExpose) {
+                    try {
+                        Double currentValue = Double.valueOf(textPropertyValue);
                         numericExpose.setCurrentValue(currentValue);
                     }
-                    else if (expose instanceof MqttDevice.Definition.EnumExpose enumExpose) {
-                        enumExpose.setCurrentValue(textValue);
+                    catch (NumberFormatException e) {
+                        logger.error("Ошибка парсинга значения!", e);
                     }
-                    else if (expose instanceof MqttDevice.Definition.TextExpose textExpose) {
-                        textExpose.setCurrentValue(textValue);
-                    }
-                }
-                catch (NumberFormatException e) {
-                    logger.error("Ошибка парсинга значения!", e);
                 }
             }
         }
