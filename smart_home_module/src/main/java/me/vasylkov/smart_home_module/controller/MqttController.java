@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.vasylkov.smart_home_module.component.MqttDevicesManager;
 import me.vasylkov.smart_home_module.dto.MqttDevicesResponse;
 import me.vasylkov.smart_home_module.service.MqttService;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,12 @@ public class MqttController {
     }
 
     @PostMapping("/expose/set")
-    public ResponseEntity<String> setExpose(@RequestParam(value = "friendly_name") String name, @RequestBody String payload) {
+    public ResponseEntity<String> setExpose(@RequestParam(value = "friendly_name") String name, @RequestBody String payload) throws MqttException {
         return ResponseEntity.ok(mqttService.setExposeValue(name, payload));
     }
 
     @PostMapping("/expose/update")
-    public ResponseEntity<String> updateExposeValue(@RequestParam(value = "friendly_name") String name, @RequestBody String payload) {
+    public ResponseEntity<String> updateExposeValue(@RequestParam(value = "friendly_name") String name, @RequestBody String payload) throws MqttException {
         return ResponseEntity.ok(mqttService.updateExposeValue(name, payload));
     }
 }

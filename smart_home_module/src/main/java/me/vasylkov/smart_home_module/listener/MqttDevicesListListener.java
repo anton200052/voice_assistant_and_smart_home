@@ -8,7 +8,9 @@ import me.vasylkov.smart_home_module.component.MqttDevicesManager;
 import me.vasylkov.smart_home_module.dto.MqttDevice;
 import me.vasylkov.smart_home_module.service.MqttService;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,12 +21,19 @@ public class MqttDevicesListListener implements IMqttMessageListener {
     private final MqttService mqttService;
     private final MqttDevicesManager mqttDevicesManager;
     private final MqttPublishedDevicesListener mqttPublishedDevicesListener;
+    private final Logger logger;
 
     private final String mqttName = "zigbee2mqtt";
 
     @PostConstruct
-    public void subscribe() {
-        mqttService.subscribe(mqttName + "/bridge/devices", this);
+    public void subscribe() throws MqttException {
+        try {
+            mqttService.subscribe(mqttName + "/bridge/devices", this);
+        }
+        catch (MqttException e) {
+            logger.error("Критическая ошибка (ошибка инициализации клиента). Приложение НЕ сможет функционировать нормально");
+            throw new MqttException(e);
+        }
     }
 
     @Override
@@ -41,7 +50,13 @@ public class MqttDevicesListListener implements IMqttMessageListener {
                 newDevices.set(i, device);
                 continue;
             }
-            mqttService.subscribe(mqttName + "/" + receivedDevice.getFriendlyName(), mqttPublishedDevicesListener);
+
+            try {
+                mqttService.subscribe(mqttName + "/" + receivedDevice.getFriendlyName(), mqttPublishedDevicesListener);
+            }
+            catch (MqttException e) {
+                logger.error("Ошибка при подписке на топик обновленного девайса: {}", e.getMessage());
+            }
         }
         mqttDevicesManager.setDevices(newDevices);
     }
