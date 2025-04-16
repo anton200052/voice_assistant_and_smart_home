@@ -1,7 +1,5 @@
 package me.vasylkov.ai_module.enums;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.github.sashirestela.openai.domain.chat.ChatMessage;
 import lombok.Getter;
 
 @Getter

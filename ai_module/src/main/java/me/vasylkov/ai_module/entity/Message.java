@@ -23,7 +23,7 @@ public class Message {
     private MessageType messageType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_uuid", nullable = false)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
     private String messageText;

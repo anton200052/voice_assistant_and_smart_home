@@ -1,8 +1,9 @@
 package me.vasylkov.ai_module.component;
 
-import io.github.sashirestela.openai.SimpleOpenAI;
-import io.github.sashirestela.openai.domain.chat.ChatMessage;
-import io.github.sashirestela.openai.domain.chat.ChatRequest;
+import com.openai.client.OpenAIClient;
+import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.models.ChatModel;
+import com.openai.models.chat.completions.*;
 import lombok.RequiredArgsConstructor;
 import me.vasylkov.ai_module.configuration.OpenAiProperties;
 import me.vasylkov.ai_module.entity.Message;
@@ -18,42 +19,36 @@ import java.util.List;
 public class OpenAIManager
 {
     private final OpenAiProperties openAiProperties;
-    private final FunctionExecutorManager functionExecutorManager;
+    private final OpenAIChatCompletionFunctionToolsManager openAIChatCompletionFunctionToolsManager;
 
-    @Bean
-    public SimpleOpenAI buildOpenAI()
+    public ChatCompletionCreateParams buildChatCompletionCreateParams(List<ChatCompletionMessageParam> chatMessages)
     {
-        return SimpleOpenAI.builder().apiKey(openAiProperties.getApiKey()).build();
-    }
-
-    public ChatRequest buildChatRequest(List<ChatMessage> chatMessages)
-    {
-        return ChatRequest.builder()
-                .model(openAiProperties.getModel())
+        return ChatCompletionCreateParams.builder()
+                .model(ChatModel.of(openAiProperties.getModel()))
                 .messages(chatMessages)
                 .temperature(openAiProperties.getTemperature())
-                .maxTokens(openAiProperties.getMaxTokens())
-                .tools(functionExecutorManager.getFunctionExecutor().getToolFunctions())
+                .maxCompletionTokens(openAiProperties.getMaxTokens())
+                .tools(openAIChatCompletionFunctionToolsManager.getFunctionTools())
                 .build();
     }
 
-    public List<ChatMessage> convertEntityMessagesToChatMessages(List<Message> entityMessages)
+    public List<ChatCompletionMessageParam> convertEntityMessagesToChatCompletionMessages(List<Message> entityMessages)
     {
-        List<ChatMessage> chatMessages = new ArrayList<>();
+        List<ChatCompletionMessageParam> chatMessages = new ArrayList<>();
 
         for (Message entityMessage : entityMessages)
         {
             if (entityMessage.getMessageType() == MessageType.SYSTEM_MSG)
             {
-                chatMessages.add(ChatMessage.SystemMessage.of(entityMessage.getMessageText()));
+                chatMessages.add(ChatCompletionMessageParam.ofSystem(ChatCompletionSystemMessageParam.builder().content(entityMessage.getMessageText()).build()));
             }
             else if (entityMessage.getMessageType() == MessageType.USER_MSG)
             {
-                chatMessages.add(ChatMessage.UserMessage.of(entityMessage.getMessageText()));
+                chatMessages.add(ChatCompletionMessageParam.ofUser(ChatCompletionUserMessageParam.builder().content(entityMessage.getMessageText()).build()));
             }
             else
             {
-                chatMessages.add(ChatMessage.AssistantMessage.of(entityMessage.getMessageText()));
+                chatMessages.add(ChatCompletionMessageParam.ofAssistant(ChatCompletionAssistantMessageParam.builder().content(entityMessage.getMessageText()).build()));
             }
         }
 
