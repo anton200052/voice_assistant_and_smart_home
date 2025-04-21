@@ -15,10 +15,10 @@ It can hold natural, free‑form conversations like a real person and seamlessly
 
 ## 🗂️ Repository Layout
 
-| Module (folder) | Language / Framework | Purpose | Client / Server sided |
-|-----------------|----------------------|---------|
-| **`main_controller_module`** | Java 21 / Spring Boot | Routes requests between micro‑services | Client sided
-| **`ai_module`** | Java 21 / Spring Boot | Core intelligence: intent classification, dialogue management | Server sided
-| **`smart_home_module`** | Java 21 / Spring Boot | Smart‑home integration via Zigbee (Zigbee2MQTT) & declarative device mapping | Server sided
-| **`voice_recogniton_module`** | Python 3.10 / FastAPI | Speech‑to‑Text (STT) service built on Vosk | Server sided
-| **`text_to_speech_module`** | Python 3.10 / FastAPI | Text‑to‑Speech (TTS) service powered by Edge TTS | Server sided
+| Module (folder) | Language / Framework | Purpose | Client / Server side |
+|-----------------|----------------------|---------|----------------------|
+| **`main_controller_module`** | Java 21 / Spring Boot | Routes requests between micro‑services | Client side |
+| **`ai_module`** | Java 21 / Spring Boot | Core intelligence: intent classification, dialogue management | Server side |
+| **`smart_home_module`** | Java 21 / Spring Boot | Smart‑home integration via Zigbee (Zigbee2MQTT) & declarative device mapping | Server side |
+| **`voice_recognition_module`** | Python 3.10 / FastAPI | Speech‑to‑Text (STT) micro‑service built on Vosk | Server side |
+| **`text_to_speech_module`** | Python 3.10 / FastAPI | Text‑to‑Speech (TTS) micro‑service powered by Edge TTS | Server side |
