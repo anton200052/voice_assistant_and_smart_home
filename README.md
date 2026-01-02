@@ -54,5 +54,5 @@ Hosts the heavy computing and logic modules.
 
 | 🥈 2nd Place Diploma | 📜 Participation Certificate |
 | :---: | :---: |
-| <img src="https://github.com/user-attachments/assets/a0274059-d377-4db6-83f8-d9d2e821ea0d" width="100%"> | <img src="https://github.com/user-attachments/assets/4af1900d-0561-421e-95d6-2216cb47be88" width="100%"> |
+| <img src="https://github.com/user-attachments/assets/c23edbc3-db4a-4441-9c78-a2b689096009" width="100%"> | <img src="https://github.com/user-attachments/assets/4af1900d-0561-421e-95d6-2216cb47be88" width="100%"> |
 | *Diploma for securing 2nd place at IDEAFEST 2024* | *Certificate of participation in the international competition* |
