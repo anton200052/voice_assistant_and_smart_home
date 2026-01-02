@@ -3,7 +3,6 @@
 ![Java](https://img.shields.io/badge/Java-Spring_Boot-orange)
 ![Python](https://img.shields.io/badge/Python-FastAPI-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Microservices-purple)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 **Marcus** is an open-source, modular voice assistant built on a robust micro-service architecture. It combines the enterprise reliability of **Java Spring Boot** with the agility of **Python FastAPI** to deliver natural conversation and seamless smart home control.
 
@@ -51,3 +50,9 @@ Hosts the heavy computing and logic modules.
 | **`text_to_speech_module`** | Python / FastAPI | **Server** | Text-to-Speech (TTS) micro-service powered by **Edge TTS** for natural-sounding voice synthesis. |
 
 ---
+## 🏆 Awards & Certificates
+
+| 🥈 2nd Place Diploma | 📜 Participation Certificate |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/a0274059-d377-4db6-83f8-d9d2e821ea0d" width="100%"> | <img src="https://github.com/user-attachments/assets/4af1900d-0561-421e-95d6-2216cb47be88" width="100%"> |
+| *Diploma for securing 2nd place at IDEAFEST 2024* | *Certificate of participation in the international competition* |
