@@ -35,7 +35,7 @@ Hosts the heavy computing and logic modules.
 * **Conversational AI:** Natural, context-aware dialogue powered by a custom Spring Boot AI engine.
 * **OpenAI Function Calling:** Leverages LLM Function Calling to intelligently translate natural language requests (e.g., *"Turn off the lights in the kitchen"*) into structured Zigbee commands.
 * **Zigbee Smart Home Control:** Native integration via Zigbee2MQTT to control lights, thermostats, plugs, and sensors.
-* **Scalable Micro-services:** Independent modules deployed via Docker, allowing for polyglot development (Java & Python) and independent scaling.
+* **Scalable Micro-services:** Independent modules allowing for polyglot development (Java & Python) and independent scaling.
 
 ---
 
